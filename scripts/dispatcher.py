@@ -1,42 +1,44 @@
 #!/usr/bin/env python
 
-from plps_launcher.srv import *
 import sys
 import rospy
 import socket
 import threading
 import os
+from ros_dispatcher.srv import pick_unknown, pick_unknownResponse
+from ros_dispatcher.srv import sense_object, sense_objectResponse
+from ros_dispatcher.srv import move_to_point, move_to_pointResponse
 
-def pick_action(robot,object, location):
+def pick_unknown_action(robot, can, location):
     print "pick execute start"
-    rospy.wait_for_service('pick')
+    rospy.wait_for_service('pick_unknown')
     try:
-        pick_proxy = rospy.ServiceProxy('pick', pick)
-        resp1 = pick_proxy(robot,object, location)
+        pick_proxy = rospy.ServiceProxy('pick_unknown', pick_unknown)
+        resp1 = pick_proxy(robot, location, can)
         print "pick result: "+resp1.result
         return resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
 
-def move_to_point_action(robot,location, destination, floor):
+def robot_navigation_action(robot, location, destination, floor="1"):
     print "move_to_point execut start"
-    rospy.wait_for_service('move_to_point')
+    rospy.wait_for_service('robot_navigation')
     try:
-        move_to_point_proxy = rospy.ServiceProxy('move_to_point', move_to_point)
+        move_to_point_proxy = rospy.ServiceProxy('robot_navigation', move_to_point)
         resp1 = move_to_point_proxy(robot, location, destination, floor)
-        print "move_to_point result: "+resp1.result
+        print "move_to_point result: " + resp1.result
         return resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
 
-def observe_can_action(robot,location, can):
+def sense_object_action(robot, can, location):
     print "observe_can execut start"
-    rospy.wait_for_service('observe_can')
+    rospy.wait_for_service('sense_object')
     try:
-        observe_can_proxy = rospy.ServiceProxy('observe_can', observe_can)
+        observe_can_proxy = rospy.ServiceProxy('sense_object', sense_object)
         resp1 = observe_can_proxy(robot, location, can)
         print "observe_can result: "+resp1.result
-        return resp1.result
+        return resp1.response
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
 
@@ -109,7 +111,7 @@ if __name__ == "__main__":
     #dispatcher("move_to_point", *['robot4','loc4','dest4','floor4'])
     # pick_client("1", "2", "3")
 
-
+    
     try:
         HOST = socket.gethostbyname("localhost")
         PORT = 1770
@@ -118,3 +120,6 @@ if __name__ == "__main__":
     except rospy.ROSInterruptException:
         pass
     #pick_client("$robot1", "$object1","$location1")
+    
+    #robot_navigation_action("robot", "location", "outside_lab211", floor="1")
+    # pick_unknown_action("robot", "can", "outside_lab211")

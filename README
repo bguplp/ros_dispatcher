@@ -1,9 +1,9 @@
 To see a simulation:
 1. run these commands:
 roscore
-rosrun plps_launcher move_to_point_server.py
-rosrun plps_launcher observe_can_server.py
-rosrun plps_launcher pick_server.py 
-rosrun plps_launcher launcher.py
+rosrun ros_dispatcher move_to_point_server.py
+rosrun ros_dispatcher observe_can_server.py
+rosrun ros_dispatcher pick_server.py 
+rosrun ros_dispatcher launcher.py
 2. run the planner
 3. look at the luancher.py terminal
