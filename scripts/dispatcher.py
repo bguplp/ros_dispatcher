@@ -5,6 +5,7 @@ import rospy
 import socket
 import threading
 import os
+from subprocess import Popen, PIPE, STDOUT
 from ros_dispatcher.srv import pick_unknown, pick_unknownResponse
 from ros_dispatcher.srv import sense_object, sense_objectResponse
 from ros_dispatcher.srv import move_to_point, move_to_pointResponse
@@ -38,7 +39,7 @@ def sense_object_action(robot, can, location):
         observe_can_proxy = rospy.ServiceProxy('sense_object', sense_object)
         resp1 = observe_can_proxy(robot, location, can)
         print "observe_can result: "+resp1.result
-        return resp1.response
+        return resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
 
@@ -72,6 +73,16 @@ def handle_client_connection(client_socket):
         print "response to planner:'" + observation
         client_socket.send(observation)
         client_socket.close()
+        p = Popen(["rosnode cleanup"], stdout=PIPE, stdin=PIPE, stderr=STDOUT) 
+        while p.poll() is None:
+            try:
+                p.stdin.write(b'y\n')
+                p.stdin.flush()
+            except:
+                pass
+        p.stdout.close()
+        p.stdin.close()
+        p.terminate()
         print 'connection ended'
     except Exception as e:
         print 'exception thrown: ', e
