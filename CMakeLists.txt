@@ -58,6 +58,7 @@ find_package(catkin REQUIRED COMPONENTS
  add_service_files(
    FILES
    pick_unknown.srv
+   place_unknown.srv
    move_to_point.srv
    sense_object.srv
  )

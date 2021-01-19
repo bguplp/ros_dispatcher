@@ -6,6 +6,7 @@ import socket
 import threading
 import os
 from subprocess import Popen, PIPE, STDOUT
+from ros_dispatcher.srv import place_unknown, place_unknownResponse
 from ros_dispatcher.srv import pick_unknown, pick_unknownResponse
 from ros_dispatcher.srv import sense_object, sense_objectResponse
 from ros_dispatcher.srv import move_to_point, move_to_pointResponse
@@ -16,6 +17,17 @@ def pick_unknown_action(robot, can, location):
     try:
         pick_proxy = rospy.ServiceProxy('pick_unknown', pick_unknown)
         resp1 = pick_proxy(robot, location, can)
+        print "pick result: "+resp1.result
+        return resp1.result
+    except rospy.ServiceException, e:
+        print "Service call failed: %s"%e
+
+def place_unknown_action(robot, can, location):
+    print "place execute start"
+    rospy.wait_for_service('place_unknown')
+    try:
+        place_proxy = rospy.ServiceProxy('place_unknown', place_unknown)
+        resp1 = place_proxy(robot, location, can)
         print "pick result: "+resp1.result
         return resp1.result
     except rospy.ServiceException, e:
