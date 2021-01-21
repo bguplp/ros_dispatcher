@@ -5,11 +5,13 @@ import rospy
 import socket
 import threading
 import os
+from std_srvs.srv import Empty
 from subprocess import Popen, PIPE, STDOUT
 from ros_dispatcher.srv import place_unknown, place_unknownResponse
 from ros_dispatcher.srv import pick_unknown, pick_unknownResponse
 from ros_dispatcher.srv import sense_object, sense_objectResponse
 from ros_dispatcher.srv import move_to_point, move_to_pointResponse
+clear_octomap = rospy.ServiceProxy('/clear_octomap', Empty)
 
 def pick_unknown_action(robot, can, location):
     print "pick execute start"
@@ -85,6 +87,7 @@ def handle_client_connection(client_socket):
         print "response to planner:'" + observation
         client_socket.send(observation)
         client_socket.close()
+        clear_octomap()
         p = Popen(["rosnode cleanup"], stdout=PIPE, stdin=PIPE, stderr=STDOUT) 
         while p.poll() is None:
             try:
