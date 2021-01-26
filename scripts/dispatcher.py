@@ -88,16 +88,11 @@ def handle_client_connection(client_socket):
         client_socket.send(observation)
         client_socket.close()
         clear_octomap()
-        p = Popen(["rosnode cleanup"], stdout=PIPE, stdin=PIPE, stderr=STDOUT) 
+        p = Popen(['rosnode', 'cleanup'], stdout=PIPE, stdin=PIPE, stderr=STDOUT) 
         while p.poll() is None:
-            try:
-                p.stdin.write(b'y\n')
-                p.stdin.flush()
-            except:
-                pass
+            p.communicate(input=b'y\n')
         p.stdout.close()
         p.stdin.close()
-        p.terminate()
         print 'connection ended'
     except Exception as e:
         print 'exception thrown: ', e
