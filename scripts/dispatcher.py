@@ -87,12 +87,12 @@ def handle_client_connection(client_socket):
         print "response to planner:'" + observation
         client_socket.send(observation)
         client_socket.close()
-        clear_octomap()
-        p = Popen(['rosnode', 'cleanup'], stdout=PIPE, stdin=PIPE, stderr=STDOUT) 
-        while p.poll() is None:
-            p.communicate(input=b'y\n')
-        p.stdout.close()
-        p.stdin.close()
+        clear_octomap()     #   flush octomap data
+        p = Popen(['rosnode', 'cleanup'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)   #   clean ros node and topics
+        while p.poll() is None:     #   clean ros node and topics
+            p.communicate(input=b'y\n')     #   clean ros node and topics
+        p.stdout.close()        #   clean ros node and topics
+        p.stdin.close()         #   clean ros node and topics
         print 'connection ended'
     except Exception as e:
         print 'exception thrown: ', e
