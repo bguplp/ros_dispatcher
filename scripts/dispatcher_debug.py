@@ -36,9 +36,9 @@ def place_unknown_action(robot, can, obj_on, location):
 
 def robot_navigation_action(robot, location, destination, floor="1"):
     print "move_to_point execut start"
-    rospy.wait_for_service('robot_navigation')
+    rospy.wait_for_service(destination)
     try:
-        move_to_point_proxy = rospy.ServiceProxy('robot_navigation', move_to_point)
+        move_to_point_proxy = rospy.ServiceProxy(destination, move_to_point)
         resp1 = move_to_point_proxy(robot, location, destination, floor)
         print "move_to_point result: " + resp1.result
         return resp1.result
