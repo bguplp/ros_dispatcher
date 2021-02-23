@@ -9,7 +9,7 @@ from subprocess import Popen, PIPE, STDOUT
 from robotican_demos_upgrade.srv import place_unknown, place_unknownResponse
 from robotican_demos_upgrade.srv import pick_unknown, pick_unknownResponse
 from robotican_demos_upgrade.srv import sense_object, sense_objectResponse
-from robotican_demos_upgrade.srv import move_to_point, move_to_pointResponse
+from armadillo_navigation_upgrade.srv import move_to_point, move_to_pointResponse
 clear_octomap = rospy.ServiceProxy('/clear_octomap', Empty)
 
 def pick_unknown_action(robot, can, location):
