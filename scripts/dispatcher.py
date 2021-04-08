@@ -11,6 +11,7 @@ from robotican_demos_upgrade.srv import pick_unknown, pick_unknownResponse
 from robotican_demos_upgrade.srv import sense_object, sense_objectResponse
 from armadillo_navigation_upgrade.srv import move_to_point, move_to_pointResponse
 clear_octomap = rospy.ServiceProxy('/clear_octomap', Empty)
+import string
 
 
 def pick_unknown_action(robot, can, location):
@@ -38,6 +39,7 @@ def place_unknown_action(robot, can, obj_on, location):
 
 
 def robot_navigation_action(robot, location, destination, floor="1"):
+    destination = ''.join(filter(lambda c: c in string.printable, destination))
     print "move_to_point execut start"
     rospy.wait_for_service(destination)
     try:
