@@ -40,7 +40,7 @@ def place_unknown_action(robot, can, obj_on, location):
 
 def robot_navigation_action(robot, location, destination, floor="1"):
     destination = ''.join(filter(lambda c: c in string.printable, destination))
-    print "move_to_point execut start"
+    print "move_to_point {} execut start".format(destination)
     rospy.wait_for_service(destination)
     try:
         move_to_point_proxy = rospy.ServiceProxy(destination, move_to_point)
