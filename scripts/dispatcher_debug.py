@@ -136,10 +136,10 @@ if __name__ == "__main__":
     #dispatcher("move_to_point", *['robot4','loc4','dest4','floor4'])
     # pick_client("1", "2", "3")
 
-    a = ["place_unknown", "robot", "can", "table", "outside_lab211"]
+    # a = ["place_unknown", "robot", "can", "table", "outside_lab211"]
     # a = ["sense_object", "robot", "can", "corridor"]
-    # a = ["pick_unknown", "robot", "can", "corridor"]
-    # a = ["robot_navigation", "robot", "corridor", "near_elevator1", "1"]
+    a = ["pick_unknown", "robot", "can", "corridor"]
+    # a = ["robot_navigation", "robot", "auditorium", "near_elevator1", "1"]
     # a = ["robot_navigation", "robot", "corridor", "auditorium", "1"]
     # a = ["robot_navigation", "robot", "near_elevator", "corridor", "1"]
     handle_client_connection(a)
