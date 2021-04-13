@@ -22,6 +22,7 @@ def pick_unknown_action(robot, can, location):
         return resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
+        return "false"
 
 def place_unknown_action(robot, can, obj_on, location):
     print "place execute start"
@@ -33,9 +34,10 @@ def place_unknown_action(robot, can, obj_on, location):
         return resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
+        return "false"
 
 def robot_navigation_action(robot, location, destination, floor="1"):
-    print "move_to_point execut start"
+    print "move_to_point {} execut start".format(destination)
     rospy.wait_for_service(destination)
     try:
         move_to_point_proxy = rospy.ServiceProxy(destination, move_to_point)
@@ -44,6 +46,7 @@ def robot_navigation_action(robot, location, destination, floor="1"):
         return resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
+        return "false"
 
 def sense_object_action(robot, can, location):
     print "observe_can execut start"
@@ -55,6 +58,7 @@ def sense_object_action(robot, can, location):
         return resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e
+        return "false"
 
 
 def dispatcher(service_name, *args):
@@ -132,10 +136,11 @@ if __name__ == "__main__":
     #dispatcher("move_to_point", *['robot4','loc4','dest4','floor4'])
     # pick_client("1", "2", "3")
 
-    # a = ["place_unknown", "robot", "can", "table", "outside_lab211"]
+    a = ["place_unknown", "robot", "can", "table", "outside_lab211"]
     # a = ["sense_object", "robot", "can", "corridor"]
     # a = ["pick_unknown", "robot", "can", "corridor"]
-    a = ["robot_navigation", "robot", "corridor", "auditorium", "1"]
+    # a = ["robot_navigation", "robot", "corridor", "near_elevator1", "1"]
+    # a = ["robot_navigation", "robot", "corridor", "auditorium", "1"]
     # a = ["robot_navigation", "robot", "near_elevator", "corridor", "1"]
     handle_client_connection(a)
     # try:

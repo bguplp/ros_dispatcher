@@ -24,6 +24,7 @@ def pick_unknown_action(robot, can, location):
         return resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s" % e
+        return "false"
 
 
 def place_unknown_action(robot, can, obj_on, location):
@@ -36,6 +37,7 @@ def place_unknown_action(robot, can, obj_on, location):
         return resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s" % e
+        return "false"
 
 
 def robot_navigation_action(robot, location, destination, floor="1"):
@@ -49,6 +51,7 @@ def robot_navigation_action(robot, location, destination, floor="1"):
         return resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s" % e
+        return "false"
 
 
 def sense_object_action(robot, can, location):
@@ -61,6 +64,7 @@ def sense_object_action(robot, can, location):
         return resp1.result
     except rospy.ServiceException, e:
         print "Service call failed: %s" % e
+        return "false"
 
 
 def dispatcher(service_name, *args):
